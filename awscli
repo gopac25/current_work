@@ -33,3 +33,19 @@ EXAMPLES
 
 
 aws ec2 describe-instances --filters --query 'Reservations[].Instances[].[PrivateIpAddress,Tags[?Key==`Name`].Value[]]'| sed 's/None$/None\n/' | sed '$!N;s/\n/ /'
+
+
+
+   78  aws ec2 describe-instances --filters --query 'Reservations[].Instances[].[PrivateIpAddress,InstanceId,Tags[?Key==`Name`].Value[]]'
+   79  aws ec2 describe-instances --filters --query 'Reservations[].Instances[].[PrivateIpAddress,Tags[?Key==`Name`].Value[]]'
+   80  aws ec2 describe-instances --filters --query 'Reservations[].Instances[].[PrivateIpAddress,Tags[?Key==`Name`].Value[]]'| sed 's/None$/None\n/' | sed '$!N;s/\n/ /'
+   81  aws configure set help
+   82  aws configure set help
+   83  aws ec2 describe-instances
+   84  aws ec2 describe-instances --filters --query 'Reservations[].Instances[].[PrivateIpAddress,vpc-id,Tags[?Key==`Name`].Value[]]'| sed 's/None$/None\n/' | sed '$!N;s/\n/ /'
+   85  aws ec2 describe-instances --filters --query 'Reservations[].Instances[].[PrivateIpAddress,Tags[?Key==`Name`].Value[]]'| sed 's/None$/None\n/' | sed '$!N;s/\n/ /'
+   86  aws ec2 describe-instances --filters
+   87  aws ec2 describe-instances --filters --query 'Reservations[].Instances[].[PrivateIpAddress,Tags[?Key==`Name`].Value[],State.Name]'| sed 's/None$/None\n/' | sed '$!N;s/\n/ /'
+   88  aws ec2 describe-instances --filters --query 'Reservations[].Instances[].[PrivateIpAddress,Tags[?Key==`Name`].Value[],State.Name,Placement.AvailabilityZone]'| sed 's/None$/None\n/' | sed '$!N;s/\n/ /'
+   89  aws ec2 describe-instances --output table
+   90  aws ec2 describe-instances --filters --query 'Reservations[].Instances[].[PrivateIpAddress,Tags[?Key==`Name`].Value[],State.Name,Placement.AvailabilityZone,VpcId]'| sed 's/None$/None\n/' | sed '$!N;s/\n/ /'
