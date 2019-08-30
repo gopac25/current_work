@@ -16,7 +16,7 @@ node {
 def build_ok = true
 properties([
   parameters([
-          string(defaultValue: '', description: 'Specify the jenkins node. ECX default value is ADF_1', name: 'NODE_LABEL'),
+          string(defaultValue: '', description: 'Specify the jenkins node. Default node is master', name: 'Jenkins_Node'),
           string(defaultValue: '', description: 'Specify the AWS_ACCESS_KEY_ID', name: 'AWS_ACCESS_KEY_ID'),
           string(defaultValue: '', description: 'Specify the AWS_SECRET_ACCESS_KEY', name: 'AWS_SECRET_ACCESS_KEY'),
           string(defaultValue: 'master', description: 'git branch name of the scripts repository', name: 'git_branch_name'),
@@ -31,12 +31,13 @@ properties([
 
     stage ('Checkout') {
     git(
-       url: 'https://github.com/gopac25/moonshot.git',
+       url: 'https://github.com/gopac25/final_infra.git',
        branch: "${git_branch_name}"
     )
   }
   
       try {
+		
         if (create_infra.toBoolean()) {
           stage ('Terraform initialize') {
              sh 'terraform init'
@@ -48,6 +49,13 @@ properties([
           stage ("Terraform Apply") {
             sh 'terraform apply -no-color create.tfplan'
              }
+          stage ("Aws Configure") {
+            sh 'aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID'
+            sh 'aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY'
+            sh 'aws configure set default.region ap-south-1'
+            sh 'aws configure set default.output text'
+            sh 'sh inven.sh'
+          }
         }
 
         if (destroy_infra.toBoolean()) {
